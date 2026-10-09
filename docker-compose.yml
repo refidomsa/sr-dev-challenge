@@ -1,0 +1,21 @@
+# Levanta la base de datos del reto:  docker compose up -d
+services:
+  database:
+    image: postgres:16-alpine
+    container_name: fuel-orders-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: fuel_orders
+    ports:
+      - '5433:5432'
+    volumes:
+      - database-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d fuel_orders']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  database-data:
